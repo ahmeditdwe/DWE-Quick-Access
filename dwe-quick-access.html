@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DWE Quick Access</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            animation: fadeInDown 0.6s ease-out;
+        }
+
+        .logo-container {
+            background: white;
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 20px rgba(243, 111, 42, 0.2);
+            overflow: hidden;
+        }
+
+        .logo-container img {
+            width: 80%;
+            height: 80%;
+            object-fit: contain;
+        }
+
+        .logo-placeholder {
+            font-size: 48px;
+            color: #F36F2A;
+            font-weight: bold;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .systems-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            padding: 20px;
+        }
+
+        .system-section {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #F36F2A;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 30px;
+            padding: 20px;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .item {
+            background: white;
+            border-radius: 20px;
+            padding: 25px 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(243, 111, 42, 0.25);
+            background: linear-gradient(135deg, #ffffff 0%, #fff5f0 100%);
+        }
+
+        .icon-wrapper {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #F36F2A 0%, #ff8c4d 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .icon-wrapper::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
+        }
+
+        .icon-wrapper.no-background {
+            background: none;
+            border-radius: 0;
+        }
+
+        .icon-wrapper.no-background::before {
+            display: none;
+        }
+
+        .icon-wrapper img {
+            width: 60%;
+            height: 60%;
+            object-fit: contain;
+            filter: brightness(0) invert(1);
+            z-index: 1;
+        }
+
+        .icon-wrapper.custom-logo img {
+            width: 90%;
+            height: 90%;
+            filter: none;
+        }
+
+        .icon-wrapper.no-background.custom-logo img {
+            width: 100%;
+            height: 100%;
+        }
+
+        .default-icon {
+            font-size: 40px;
+            color: white;
+            z-index: 1;
+        }
+
+        .item-name {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #333;
+            word-wrap: break-word;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 50px;
+            color: #F36F2A;
+            font-size: 1.2rem;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #F36F2A;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+            }
+
+            .logo-container {
+                width: 100px;
+                height: 100px;
+            }
+
+            .systems-wrapper {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .grid {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+                gap: 20px;
+            }
+
+            .icon-wrapper {
+                width: 70px;
+                height: 70px;
+            }
+
+            .item {
+                padding: 20px 10px;
+            }
+
+            .item-name {
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .header {
+                margin-bottom: 30px;
+            }
+
+            .logo-container {
+                width: 80px;
+                height: 80px;
+            }
+
+            .systems-wrapper {
+                gap: 20px;
+                padding: 10px;
+            }
+
+            .system-section {
+                padding: 20px;
+            }
+
+            .section-title {
+                font-size: 1.3rem;
+                margin-bottom: 20px;
+            }
+
+            .grid {
+                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+                gap: 15px;
+                padding: 10px;
+            }
+
+            .icon-wrapper {
+                width: 60px;
+                height: 60px;
+            }
+
+            .default-icon {
+                font-size: 30px;
+            }
+        }
+
+        .error-message {
+            text-align: center;
+            padding: 50px;
+            color: #e74c3c;
+            font-size: 1.1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo-container" id="logoContainer">
+            <div class="logo-placeholder">DWE</div>
+        </div>
+        <h1>Quick Access</h1>
+        <p class="subtitle">Your Gateway to DWE Systems</p>
+    </div>
+
+    <div class="container">
+        <div id="loading" class="loading">
+            <div class="spinner"></div>
+            Loading systems...
+        </div>
+        <div id="systems" style="display: none;">
+            <div class="systems-wrapper">
+                <div class="system-section">
+                    <h2 class="section-title">DWE Systems</h2>
+                    <div id="grid-dwe" class="grid"></div>
+                </div>
+                <div class="system-section">
+                    <h2 class="section-title">Systems</h2>
+                    <div id="grid-partner" class="grid"></div>
+                </div>
+            </div>
+        </div>
+        <div id="error" class="error-message" style="display: none;"></div>
+    </div>
+
+    <script type="module">
+        // Import Firebase
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, collection, getDocs, doc, getDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDkoG-lnHvjb23qtNTEFzZzQbqKIUnecbo",
+            authDomain: "dwe-quick-access.firebaseapp.com",
+            projectId: "dwe-quick-access",
+            storageBucket: "dwe-quick-access.firebasestorage.app",
+            messagingSenderId: "955384405614",
+            appId: "1:955384405614:web:2ed598b5fa5668a86b507f"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Default icon mapping for common systems
+        const defaultIcons = {
+            'email': '📧',
+            'calendar': '📅',
+            'drive': '📁',
+            'meeting': '🎥',
+            'hr': '👥',
+            'finance': '💰',
+            'analytics': '📊',
+            'settings': '⚙️',
+            'default': '🔗'
+        };
+
+        function getDefaultIcon(name) {
+            const lowerName = name.toLowerCase();
+            for (const [key, icon] of Object.entries(defaultIcons)) {
+                if (lowerName.includes(key)) {
+                    return icon;
+                }
+            }
+            return defaultIcons.default;
+        }
+
+        // Load main logo from Firebase
+        async function loadMainLogo() {
+            try {
+                const configDoc = await getDoc(doc(db, "config", "branding"));
+                if (configDoc.exists()) {
+                    const data = configDoc.data();
+                    if (data.logoBase64) {
+                        const logoContainer = document.getElementById('logoContainer');
+                        logoContainer.innerHTML = `<img src="${data.logoBase64}" alt="DWE Logo" style="width: 80%; height: 80%; object-fit: contain;">`;
+                    }
+                }
+            } catch (error) {
+                console.error("Error loading logo:", error);
+            }
+        }
+
+        async function loadQuickAccessItems() {
+            const loadingEl = document.getElementById('loading');
+            const systemsEl = document.getElementById('systems');
+            const errorEl = document.getElementById('error');
+
+            try {
+                // Load main logo
+                await loadMainLogo();
+
+                // Query Firestore for quick access items
+                const q = query(collection(db, "quickAccessItems"), orderBy("order", "asc"));
+                const querySnapshot = await getDocs(q);
+
+                if (querySnapshot.empty) {
+                    errorEl.innerHTML = `
+                        <h3>No items configured yet</h3>
+                        <p>Add items to the 'quickAccessItems' collection in Firebase Firestore.</p>
+                        <p style="margin-top: 20px; font-size: 0.9rem; color: #666;">
+                            Each document should have: name, url, order, isDWESystem (boolean), and optionally iconBase64 and useCircleBackground
+                        </p>
+                    `;
+                    errorEl.style.display = 'block';
+                    loadingEl.style.display = 'none';
+                    return;
+                }
+
+                // Clear grids
+                const gridDWE = document.getElementById('grid-dwe');
+                const gridPartner = document.getElementById('grid-partner');
+                gridDWE.innerHTML = '';
+                gridPartner.innerHTML = '';
+
+                // Add items to appropriate grid
+                querySnapshot.forEach((doc) => {
+                    const data = doc.data();
+                    const item = createQuickAccessItem(data);
+                    
+                    // Check isDWESystem boolean (default to true if not specified)
+                    if (data.isDWESystem !== false) {
+                        gridDWE.appendChild(item);
+                    } else {
+                        gridPartner.appendChild(item);
+                    }
+                });
+
+                // Show systems, hide loading
+                loadingEl.style.display = 'none';
+                systemsEl.style.display = 'block';
+
+            } catch (error) {
+                console.error("Error loading items:", error);
+                errorEl.innerHTML = `
+                    <h3>Error Loading Items</h3>
+                    <p>${error.message}</p>
+                `;
+                errorEl.style.display = 'block';
+                loadingEl.style.display = 'none';
+            }
+        }
+
+        function createQuickAccessItem(data) {
+            const link = document.createElement('a');
+            link.href = data.url || '#';
+            link.className = 'item';
+            link.target = '_blank';
+            link.rel = 'noopener noreferrer';
+
+            const iconWrapper = document.createElement('div');
+            iconWrapper.className = 'icon-wrapper';
+
+            // Check if user wants circle background (default is true)
+            const useCircle = data.useCircleBackground !== false;
+            
+            if (!useCircle) {
+                iconWrapper.classList.add('no-background');
+            }
+
+            if (data.iconBase64) {
+                // Custom logo from base64
+                iconWrapper.classList.add('custom-logo');
+                const img = document.createElement('img');
+                img.src = data.iconBase64;
+                img.alt = data.name || 'Icon';
+                img.onerror = function() {
+                    // Fallback to default icon if image fails to load
+                    this.parentElement.classList.remove('custom-logo');
+                    this.remove();
+                    const defaultIcon = document.createElement('div');
+                    defaultIcon.className = 'default-icon';
+                    defaultIcon.textContent = getDefaultIcon(data.name || '');
+                    iconWrapper.appendChild(defaultIcon);
+                };
+                iconWrapper.appendChild(img);
+            } else {
+                // Default icon
+                const defaultIcon = document.createElement('div');
+                defaultIcon.className = 'default-icon';
+                defaultIcon.textContent = getDefaultIcon(data.name || '');
+                iconWrapper.appendChild(defaultIcon);
+            }
+
+            const nameEl = document.createElement('div');
+            nameEl.className = 'item-name';
+            nameEl.textContent = data.name || 'Unnamed';
+
+            link.appendChild(iconWrapper);
+            link.appendChild(nameEl);
+
+            return link;
+        }
+
+        // Load items when page loads
+        loadQuickAccessItems();
+    </script>
+</body>
+</html>
