@@ -89,92 +89,12 @@
             border-bottom: 3px solid #F36F2A;
         }
 
-        .grid-container {
-            position: relative;
-            overflow: hidden;
-        }
-
         .grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
             gap: 30px;
             padding: 20px;
             animation: fadeIn 0.8s ease-out;
-            min-height: 300px;
-        }
-
-        .grid.fade-out {
-            animation: fadeOut 0.3s ease-out;
-        }
-
-        .pagination-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 20px;
-            padding: 15px;
-        }
-
-        .nav-arrow {
-            background: linear-gradient(135deg, #F36F2A 0%, #ff8c4d 100%);
-            color: white;
-            border: none;
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            font-size: 20px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 10px rgba(243, 111, 42, 0.3);
-        }
-
-        .nav-arrow:hover:not(:disabled) {
-            transform: scale(1.1);
-            box-shadow: 0 6px 15px rgba(243, 111, 42, 0.4);
-        }
-
-        .nav-arrow:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-            box-shadow: none;
-            opacity: 0.5;
-        }
-
-        .page-indicator {
-            font-size: 1rem;
-            color: #333;
-            font-weight: 600;
-            min-width: 80px;
-            text-align: center;
-        }
-
-        .page-dots {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-        }
-
-        .page-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: #ddd;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .page-dot:hover {
-            background: #bbb;
-        }
-
-        .page-dot.active {
-            background: #F36F2A;
-            width: 12px;
-            height: 12px;
         }
 
         .item {
@@ -295,17 +215,6 @@
             }
         }
 
-        @keyframes fadeOut {
-            from {
-                opacity: 1;
-                transform: translateY(0);
-            }
-            to {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-        }
-
         @keyframes fadeInDown {
             from {
                 opacity: 0;
@@ -342,20 +251,8 @@
             }
 
             .grid {
-                grid-template-columns: repeat(2, 1fr);
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
                 gap: 20px;
-                min-height: 250px;
-            }
-
-            .nav-arrow {
-                width: 40px;
-                height: 40px;
-                font-size: 18px;
-            }
-
-            .page-indicator {
-                font-size: 0.9rem;
-                min-width: 70px;
             }
 
             .icon-wrapper {
@@ -405,10 +302,9 @@
             }
 
             .grid {
-                grid-template-columns: repeat(2, 1fr);
+                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
                 gap: 15px;
                 padding: 10px;
-                min-height: 200px;
             }
 
             .icon-wrapper {
@@ -418,31 +314,6 @@
 
             .default-icon {
                 font-size: 30px;
-            }
-
-            .nav-arrow {
-                width: 35px;
-                height: 35px;
-                font-size: 16px;
-            }
-
-            .page-indicator {
-                font-size: 0.85rem;
-                min-width: 60px;
-            }
-
-            .page-dots {
-                gap: 6px;
-            }
-
-            .page-dot {
-                width: 8px;
-                height: 8px;
-            }
-
-            .page-dot.active {
-                width: 10px;
-                height: 10px;
             }
         }
 
@@ -472,27 +343,11 @@
             <div class="systems-wrapper">
                 <div class="system-section">
                     <h2 class="section-title">DWE Systems</h2>
-                    <div class="grid-container">
-                        <div id="grid-dwe" class="grid"></div>
-                    </div>
-                    <div id="pagination-dwe" class="pagination-container" style="display: none;">
-                        <button class="nav-arrow" id="prev-dwe" aria-label="Previous page">←</button>
-                        <div class="page-indicator" id="page-info-dwe">1 / 1</div>
-                        <button class="nav-arrow" id="next-dwe" aria-label="Next page">→</button>
-                    </div>
-                    <div id="dots-dwe" class="page-dots" style="display: none; justify-content: center; margin-top: 10px;"></div>
+                    <div id="grid-dwe" class="grid"></div>
                 </div>
                 <div class="system-section">
                     <h2 class="section-title">Systems</h2>
-                    <div class="grid-container">
-                        <div id="grid-partner" class="grid"></div>
-                    </div>
-                    <div id="pagination-partner" class="pagination-container" style="display: none;">
-                        <button class="nav-arrow" id="prev-partner" aria-label="Previous page">←</button>
-                        <div class="page-indicator" id="page-info-partner">1 / 1</div>
-                        <button class="nav-arrow" id="next-partner" aria-label="Next page">→</button>
-                    </div>
-                    <div id="dots-partner" class="page-dots" style="display: none; justify-content: center; margin-top: 10px;"></div>
+                    <div id="grid-partner" class="grid"></div>
                 </div>
             </div>
         </div>
@@ -531,20 +386,6 @@
             'default': '🔗'
         };
 
-        // Pagination state
-        let dweItems = [];
-        let partnerItems = [];
-        let currentDWEPage = 0;
-        let currentPartnerPage = 0;
-
-        // Get items per page based on screen size
-        function getItemsPerPage() {
-            const width = window.innerWidth;
-            if (width <= 480) return 4; // 2x2 grid on mobile
-            if (width <= 768) return 4; // 2x2 grid on tablet
-            return 6; // 3x2 grid on desktop
-        }
-
         function getDefaultIcon(name) {
             const lowerName = name.toLowerCase();
             for (const [key, icon] of Object.entries(defaultIcons)) {
@@ -554,134 +395,6 @@
             }
             return defaultIcons.default;
         }
-
-        // Render a specific page for a section
-        function renderPage(items, currentPage, gridId, pageInfoId, prevBtnId, nextBtnId, dotsId) {
-            const grid = document.getElementById(gridId);
-            const itemsPerPage = getItemsPerPage();
-            const totalPages = Math.ceil(items.length / itemsPerPage);
-            
-            // Ensure current page is valid
-            currentPage = Math.max(0, Math.min(currentPage, totalPages - 1));
-            
-            // Add fade out animation
-            grid.classList.add('fade-out');
-            
-            setTimeout(() => {
-                // Clear grid
-                grid.innerHTML = '';
-                
-                // Calculate slice indices
-                const startIdx = currentPage * itemsPerPage;
-                const endIdx = Math.min(startIdx + itemsPerPage, items.length);
-                
-                // Add items for current page
-                for (let i = startIdx; i < endIdx; i++) {
-                    grid.appendChild(createQuickAccessItem(items[i]));
-                }
-                
-                // Remove fade out and trigger fade in
-                grid.classList.remove('fade-out');
-                
-                // Update pagination controls
-                updatePaginationControls(currentPage, totalPages, pageInfoId, prevBtnId, nextBtnId, dotsId);
-            }, 300);
-            
-            return currentPage;
-        }
-
-        // Update pagination controls
-        function updatePaginationControls(currentPage, totalPages, pageInfoId, prevBtnId, nextBtnId, dotsId) {
-            const pageInfo = document.getElementById(pageInfoId);
-            const prevBtn = document.getElementById(prevBtnId);
-            const nextBtn = document.getElementById(nextBtnId);
-            const pagination = document.getElementById(pageInfoId).parentElement;
-            const dotsContainer = document.getElementById(dotsId);
-            
-            if (totalPages <= 1) {
-                pagination.style.display = 'none';
-                dotsContainer.style.display = 'none';
-                return;
-            }
-            
-            pagination.style.display = 'flex';
-            dotsContainer.style.display = 'flex';
-            
-            pageInfo.textContent = `${currentPage + 1} / ${totalPages}`;
-            prevBtn.disabled = currentPage === 0;
-            nextBtn.disabled = currentPage === totalPages - 1;
-            
-            // Update dots
-            dotsContainer.innerHTML = '';
-            for (let i = 0; i < totalPages; i++) {
-                const dot = document.createElement('div');
-                dot.className = `page-dot ${i === currentPage ? 'active' : ''}`;
-                dot.addEventListener('click', () => {
-                    if (dotsId.includes('dwe')) {
-                        currentDWEPage = renderPage(dweItems, i, 'grid-dwe', 'page-info-dwe', 'prev-dwe', 'next-dwe', 'dots-dwe');
-                    } else {
-                        currentPartnerPage = renderPage(partnerItems, i, 'grid-partner', 'page-info-partner', 'prev-partner', 'next-partner', 'dots-partner');
-                    }
-                });
-                dotsContainer.appendChild(dot);
-            }
-        }
-
-        // Setup pagination controls
-        function setupPaginationControls() {
-            // DWE Systems controls
-            document.getElementById('prev-dwe').addEventListener('click', () => {
-                if (currentDWEPage > 0) {
-                    currentDWEPage = renderPage(dweItems, currentDWEPage - 1, 'grid-dwe', 'page-info-dwe', 'prev-dwe', 'next-dwe', 'dots-dwe');
-                }
-            });
-            
-            document.getElementById('next-dwe').addEventListener('click', () => {
-                const itemsPerPage = getItemsPerPage();
-                const totalPages = Math.ceil(dweItems.length / itemsPerPage);
-                if (currentDWEPage < totalPages - 1) {
-                    currentDWEPage = renderPage(dweItems, currentDWEPage + 1, 'grid-dwe', 'page-info-dwe', 'prev-dwe', 'next-dwe', 'dots-dwe');
-                }
-            });
-            
-            // Partner Systems controls
-            document.getElementById('prev-partner').addEventListener('click', () => {
-                if (currentPartnerPage > 0) {
-                    currentPartnerPage = renderPage(partnerItems, currentPartnerPage - 1, 'grid-partner', 'page-info-partner', 'prev-partner', 'next-partner', 'dots-partner');
-                }
-            });
-            
-            document.getElementById('next-partner').addEventListener('click', () => {
-                const itemsPerPage = getItemsPerPage();
-                const totalPages = Math.ceil(partnerItems.length / itemsPerPage);
-                if (currentPartnerPage < totalPages - 1) {
-                    currentPartnerPage = renderPage(partnerItems, currentPartnerPage + 1, 'grid-partner', 'page-info-partner', 'prev-partner', 'next-partner', 'dots-partner');
-                }
-            });
-            
-            // Keyboard navigation
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'ArrowLeft') {
-                    document.getElementById('prev-dwe').click();
-                } else if (e.key === 'ArrowRight') {
-                    document.getElementById('next-dwe').click();
-                }
-            });
-        }
-
-        // Handle window resize
-        let resizeTimer;
-        window.addEventListener('resize', () => {
-            clearTimeout(resizeTimer);
-            resizeTimer = setTimeout(() => {
-                if (dweItems.length > 0) {
-                    currentDWEPage = renderPage(dweItems, currentDWEPage, 'grid-dwe', 'page-info-dwe', 'prev-dwe', 'next-dwe', 'dots-dwe');
-                }
-                if (partnerItems.length > 0) {
-                    currentPartnerPage = renderPage(partnerItems, currentPartnerPage, 'grid-partner', 'page-info-partner', 'prev-partner', 'next-partner', 'dots-partner');
-                }
-            }, 250);
-        });
 
         // Load main logo from Firebase
         async function loadMainLogo() {
@@ -725,32 +438,24 @@
                     return;
                 }
 
-                // Clear arrays
-                dweItems = [];
-                partnerItems = [];
+                // Clear grids
+                const gridDWE = document.getElementById('grid-dwe');
+                const gridPartner = document.getElementById('grid-partner');
+                gridDWE.innerHTML = '';
+                gridPartner.innerHTML = '';
 
-                // Separate items into two arrays
+                // Add items to appropriate grid
                 querySnapshot.forEach((doc) => {
                     const data = doc.data();
+                    const item = createQuickAccessItem(data);
                     
                     // Check isDWESystem boolean (default to true if not specified)
                     if (data.isDWESystem !== false) {
-                        dweItems.push(data);
+                        gridDWE.appendChild(item);
                     } else {
-                        partnerItems.push(data);
+                        gridPartner.appendChild(item);
                     }
                 });
-
-                // Setup pagination controls
-                setupPaginationControls();
-
-                // Render first pages
-                if (dweItems.length > 0) {
-                    currentDWEPage = renderPage(dweItems, 0, 'grid-dwe', 'page-info-dwe', 'prev-dwe', 'next-dwe', 'dots-dwe');
-                }
-                if (partnerItems.length > 0) {
-                    currentPartnerPage = renderPage(partnerItems, 0, 'grid-partner', 'page-info-partner', 'prev-partner', 'next-partner', 'dots-partner');
-                }
 
                 // Show systems, hide loading
                 loadingEl.style.display = 'none';
